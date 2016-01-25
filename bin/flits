@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/flits"
+
+case ARGV[0]
+when "study"
+  puts "called study"
+  puts Flits.new.study
+else
+  STDOUT.puts <<-EOF
+Please provide command name
+
+Usage:
+  flits study
+EOF
+end
