@@ -1,8 +1,8 @@
 class Flits
   require 'csv'
 
-  def initialize
-    @flashcards = CSV.read("../data/dutch.csv")
+  def initialize(filename)
+    @flashcards = CSV.read(filename)
   end
 
   def study
@@ -15,14 +15,34 @@ class Flits
     front = card.first
     back = card.last
 
-    puts "Dutch: '#{front}'"
-    puts "English: '#{back}'"
+    puts blue("Please translate: '#{front}'")
+    puts "Your guess:"    
 
-    # maybe use a regex to make this less sensitive instead of just 'downcase'
-    # if answer.downcase == back.downcase
-    #   puts "correct!"
-    # else
-    #   puts "nope, back in the pile!"
-    # end
+    guess = STDIN.gets.chomp
+    
+    if guess == back
+      puts green("You're right!")
+    else
+      puts red("Nope, keep studying!")
+      puts blue("Would you like to see the translation? [y/n]")
+      answer = STDIN.gets.chomp
+      puts green("#{back}") if answer == "y"
+    end  
+  end
+
+  def red(text)
+    colorize(text, 31)
+  end
+
+  def green(text)
+    colorize(text, 32)
+  end
+
+  def blue(text)
+    colorize(text, 36)
+  end
+
+  def colorize(text, color_code)
+    "\e[#{color_code}m#{text}\e[0m"
   end
 end
