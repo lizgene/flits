@@ -1,19 +1,33 @@
 class Flits
-  require 'csv'
+  def self.new(args)
+    front = args[0]
+    back = args[1]
 
-  def initialize(filename)
-    @flashcards = CSV.read(filename)
-  end
-
-  def study
-    @flashcards.each do |card|
-      flash(card)
+    File.open('data.txt', 'a') do |file|
+      file.puts "#{front}, #{back}"
+      puts "Translation added."
     end
   end
 
-  def flash(card)
-    front = card.first
-    back = card.last
+  def self.list
+    File.open('data.txt', 'r') do |file|
+      file.readlines.each do |line|
+        front,back = line.chomp.split(/,/)
+        printf("%s : %s\n", front, back)
+      end
+    end
+  end
+
+  def self.study
+    File.open('data.txt', 'r') do |file|
+      file.readlines.each do |line|
+        flash(line)
+      end
+    end
+  end
+
+  def self.flash(card)
+    front,back = card.chomp.split(/,/)
 
     puts blue("Please translate: '#{front}'")
     puts "Your guess:"    

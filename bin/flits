@@ -2,16 +2,25 @@
 
 require_relative "../lib/flits"
 
-case ARGV[0]
+command = ARGV.shift
+
+case command
+when "new"
+  puts "called new"
+  Flits.new(ARGV)
+when "list"
+  puts "called list"
+  Flits.list
 when "study"
   puts "called study"
-  filename = ARGV[1]  
-  Flits.new(filename).study
+  Flits.study
 else
   STDOUT.puts <<-EOF
 Please provide command name
 
 Usage:
   flits study
+  flits new
+  flits list
 EOF
 end
